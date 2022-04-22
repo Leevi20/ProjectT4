@@ -8,3 +8,4 @@ git for windows https://gitforwindows.org/
 
 contributors
 Leevi Hyvärinen 678833
+Jasper Hendrix  687431
