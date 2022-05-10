@@ -12,10 +12,10 @@ class IOPair:   #class containg information on input / output pair
     pinIn = 0
     pinOut = 0
     
-    def __init__(input, output):
-        if type(input)is int:
-            pinIn = input   #pin number to activate NOTE output will be executed on change HIGH to LOW and on LOW to HIGH
-            pinOut=output   #NOTE can be an intiger for a output pin OR a function to be callled
+    def __init__(inPin, outPin):
+        if type(inPin)is int:
+            pinIn = inPin   #pin number to activate, NOTE output will be executed on change HIGH to LOW and on LOW to HIGH
+            pinOut=outPin   #NOTE can be an intiger for a output pin OR a function to be callled
         
         else:
             print("Error: invalid parameters in IO pair constructor")
