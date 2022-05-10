@@ -1,15 +1,14 @@
-from asyncio import wait_for
 from doctest import OutputChecker
-import rpi.GPIO as IO
+import RPi.GPIO as IO
 from time import sleep
 
 IO.setwarnings(False)
 IO.setmode(IO.BCM)
 
-def callback(): 
+def callback(): #example function
     print("happening!!!!")
 
-class IOPair:
+class IOPair:   #class containg information on input / output pair
     pinIn = 0
     pinOut = 0
     
@@ -24,7 +23,7 @@ class IOPair:
     def Sethigh():
         IO.output(pinOut,IO.HIGH)
 
-list = [IOPair(7,8), IOPair(9,callback)]
+list = [IOPair(7,8), IOPair(9,callback)]    #list of input output pairs with examples
     
 for x in list:
     IO.setup(x.pinIn,IO.IN)
