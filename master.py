@@ -2,8 +2,6 @@ from doctest import OutputChecker
 import RPi.GPIO as IO
 from time import sleep
 
-updateRate = 100 #how may times per second does the program check for inputs, NOTE this assumes time taken by update is negligible
-
 IO.setwarnings(False)
 IO.setmode(IO.BCM)
 
@@ -41,7 +39,6 @@ for x in list:
         
 #loop that waits for an interrupt and has an conditional exit
 run = True
-delay = 1/updateRate
 while run:
             
     try:
@@ -51,7 +48,7 @@ while run:
         i = input()
         if(i=="Y" or i == "Yes" or i =="yes"):
             run = False
-    sleep(delay)
+    sleep(.1)
 
 #preform cleanup on used pins when exiting
 for x in list:
