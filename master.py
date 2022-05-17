@@ -5,6 +5,8 @@ from time import sleep
 IO.setwarnings(False)
 IO.setmode(IO.BCM)
 
+#if your actuator needs more complicated conrolls than a high singnal on a single pin, write it into a functinon here
+
 def callback(): #example function
     print("happening!!!!")
 
@@ -19,9 +21,11 @@ class IOPair:   #class containg information on input / output pair
         
         else:
             print("Error: invalid parameters in IO pair constructor")
-
-list = [IOPair(7,8), IOPair(9,callback)]    #list of input output pairs with examples
-    
+            
+#list of input output pairs with examples
+# to add an actuator sensor pair ass a new IOPair(input , output) to the list below
+list = [IOPair(7,8), IOPair(9,callback)]   
+ 
 #preform setup for all items in list
 for x in list:        
     IO.setup(x.pinIn,IO.IN)
@@ -32,14 +36,13 @@ for x in list:
         IO.setup(x.pinOut, IO.OUT)
         IO.add_event_callback(x.pinIn, IO.output(x.pinOut,IO.HIGH))  # assign function to GPIO PIN, Run function on change
     
-    #if pinOut is a function call it, NOTE if pinOut isn't a in it's a function, see typeCheck in IOPair _init_
+    #if pinOut is a function call it, NOTE if pinOut isn't an int it's a function, see typeCheck in IOPair :_init__
     else:
         IO.add_event_callback(x.pinIn, x.pinOut)  
         
 #loop that waits for an interrupt and has an conditional exit
 run = True
 while run:
-            
     try:
         i = input()
     except KeyboardInterrupt:
