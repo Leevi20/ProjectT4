@@ -59,7 +59,6 @@ def motor():
 def empty():
     print("nothing")
     
-    
 class IOPair:   #class containg information on input / output pair
     pinIn = 0
     pinOut = 0
