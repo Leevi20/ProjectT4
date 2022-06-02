@@ -8,9 +8,10 @@
 #humidity   8 -> 23
 #DC motor INC    21
 #DC motor I/U    20
+#pin 10 == empty input
 
-from os import extsep
 import RPi.GPIO as IO
+import dht11
 from time import sleep
 
 IO.setwarnings(False)
@@ -53,6 +54,10 @@ def motor():
         sleep(.1)
         IO.output(21,IO.LOW)
         i += 1
+        
+#empty function     
+def empty():
+    print("nothing")
     
     
 class IOPair:   #class containg information on input / output pair
@@ -67,18 +72,6 @@ class IOPair:   #class containg information on input / output pair
             func = outFunc
             initial = ini
 
-   
-#loop that waits for an interrupt and has an conditional exit
-def loop():
-    try:
-        while True:
-            sleep(.1)
-    except KeyboardInterrupt:
-        IO.Cleanup()
-        inp = input("terminate program [Yes/NO] ?")
-        if inp == "Yes" or inp=="Y"or inp=="y"or inp=="yes":
-            Clean()
-        else: loop()
 
 #execute to exit program
 def Clean():
@@ -91,7 +84,7 @@ def Clean():
 
 #list of input output pairs with examples
 # to add an actuator sensor pair ass a new IOPair(input , output) to the list below
-list = [IOPair(2,3,IO.HIGH,fan),IOPair(4,5,IO.LOW,led),IOPair(6,7,IO.LOW,servo),IOPair(6,9,IO.LOW,motor)]
+list = [IOPair(4,11,IO.HIGH,fan),IOPair(3,2,IO.LOW,led),IOPair(14,22,IO.LOW,servo),IOPair(10,20,IO.LOW,motor),IOPair(10,21,IO.LOW,empty)]
  
 #preform setup for all items in list
 for x in list:        
@@ -102,4 +95,15 @@ for x in list:
     IO.add_event_callback(x.pinIn, x.func)  # assign function to GPIO PIN, Run function on change 
 
 #wait for input
-loop()
+print("press any key to exit")
+try:
+    while True:
+        sleep(.1)
+        result = dht11.DHT11(pin = 23).read()
+        if result.is_valid():
+            if result.humidity > .5: 
+                motor()
+        
+except KeyboardInterrupt:
+    print("exiting")
+    IO.Cleanup()
